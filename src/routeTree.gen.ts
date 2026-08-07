@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as QQuoteRowRouteImport } from './routes/q.$quoteRow'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QQuoteRowRoute = QQuoteRowRouteImport.update({
+  id: '/q/$quoteRow',
+  path: '/q/$quoteRow',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/q/$quoteRow': typeof QQuoteRowRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/q/$quoteRow': typeof QQuoteRowRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/q/$quoteRow': typeof QQuoteRowRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/q/$quoteRow'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/q/$quoteRow'
+  id: '__root__' | '/' | '/q/$quoteRow'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  QQuoteRowRoute: typeof QQuoteRowRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/q/$quoteRow': {
+      id: '/q/$quoteRow'
+      path: '/q/$quoteRow'
+      fullPath: '/q/$quoteRow'
+      preLoaderRoute: typeof QQuoteRowRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  QQuoteRowRoute: QQuoteRowRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
