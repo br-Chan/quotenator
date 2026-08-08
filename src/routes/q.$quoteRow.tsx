@@ -1,8 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import * as htmlToImage from "html-to-image";
 import { useRef } from "react";
 import { Status } from "use-google-sheets";
 import { useQuotes } from "#/hooks/useQuotes";
+import {
+	copyDivAsImageToClipboard,
+	downloadDivAsImage,
+} from "#/lib/html-to-image";
 import { formatDate } from "#/lib/utils";
 
 export const Route = createFileRoute("/q/$quoteRow")({
@@ -28,30 +31,13 @@ function RouteComponent() {
 
 	const handleDownloadQuote = async () => {
 		if (quoteRef.current) {
-			const dataURL = await htmlToImage.toPng(quoteRef.current, {
-				cacheBust: true,
-			});
-
-			const link = document.createElement("a");
-			link.href = dataURL;
-			link.download = `quote-${quoteRow}.png`;
-			link.click();
+			await downloadDivAsImage(quoteRef.current, `quote-${quoteRow}.png`);
 		}
 	};
 
 	const handleCopyQuote = async () => {
 		if (quoteRef.current) {
-			const blob = await htmlToImage.toBlob(quoteRef.current, {
-				cacheBust: true,
-			});
-
-			if (!blob) {
-				throw new Error("Failed to blobify :(((");
-			}
-
-			await navigator.clipboard.write([
-				new ClipboardItem({ [blob.type]: blob }),
-			]);
+			await copyDivAsImageToClipboard(quoteRef.current);
 		}
 	};
 
