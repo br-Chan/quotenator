@@ -1,4 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import * as htmlToImage from "html-to-image";
+import { useRef } from "react";
 import { Status } from "use-google-sheets";
 import { useQuotes } from "#/hooks/useQuotes";
 import { formatDate } from "#/lib/utils";
@@ -9,6 +11,8 @@ export const Route = createFileRoute("/q/$quoteRow")({
 
 function RouteComponent() {
 	const { quoteRow } = Route.useParams();
+
+	const quoteRef = useRef<HTMLDivElement>(null);
 
 	const { status, quotes, error } = useQuotes();
 
@@ -22,6 +26,35 @@ function RouteComponent() {
 
 	const quote = quotes[parseInt(quoteRow, 10) - 1];
 
+	const handleDownloadQuote = async () => {
+		if (quoteRef.current) {
+			const dataURL = await htmlToImage.toPng(quoteRef.current, {
+				cacheBust: true,
+			});
+
+			const link = document.createElement("a");
+			link.href = dataURL;
+			link.download = `quote-${quoteRow}.png`;
+			link.click();
+		}
+	};
+
+	const handleCopyQuote = async () => {
+		if (quoteRef.current) {
+			const blob = await htmlToImage.toBlob(quoteRef.current, {
+				cacheBust: true,
+			});
+
+			if (!blob) {
+				throw new Error("Failed to blobify :(((");
+			}
+
+			await navigator.clipboard.write([
+				new ClipboardItem({ [blob.type]: blob }),
+			]);
+		}
+	};
+
 	return (
 		<div className="p-8 container mx-auto items-center justify-center gap-2 flex flex-col">
 			<div className="w-lg flex flex-row justify-between py-2">
@@ -31,15 +64,28 @@ function RouteComponent() {
 				>
 					Back
 				</Link>
-				<button
-					type="button"
-					className="border rounded px-4 py-2 w-fit hover:bg-gray-100 hover:cursor-pointer"
-				>
-					Copy Image
-				</button>
+				<div className="flex items-center space-x-2">
+					<button
+						type="button"
+						className="border rounded px-4 py-2 w-fit hover:bg-gray-100 hover:cursor-pointer"
+						onClick={handleDownloadQuote}
+					>
+						Download Quote
+					</button>
+					<button
+						type="button"
+						className="border rounded px-4 py-2 w-fit hover:bg-gray-100 hover:cursor-pointer"
+						onClick={handleCopyQuote}
+					>
+						Copy to clipboard
+					</button>
+				</div>
 			</div>
 
-			<div className="relative flex flex-col items-center justify-center aspect-square w-lg p-4 bg-radial from-amber-100 to-amber-200">
+			<div
+				ref={quoteRef}
+				className="relative flex flex-col items-center justify-center aspect-square w-lg p-4 bg-[radial-gradient(circle,var(--color-amber-100),var(--color-amber-200))]"
+			>
 				<p className="mt-4 text-4xl text-center caudex-bold-italic">
 					{quote.Quote}
 				</p>
