@@ -17,6 +17,7 @@ import {
 	TableRow,
 } from "@/components/table";
 import { type DataTableFeatures, features } from "./data-table-features";
+import { DataTablePagination } from "./data-table-pagination";
 
 interface DataTableProps<TData extends RowData> {
 	columns: ColumnDef<DataTableFeatures, TData>[];
@@ -46,7 +47,7 @@ export function DataTable<TData extends RowData>({
 
 	return (
 		<div>
-			<div className="flex flex-row justify-between py-2">
+			<div className="flex flex-col gap-2 lg:flex-row lg:justify-between py-2">
 				<div className="flex items-center space-x-2">
 					<input
 						placeholder="Search quotes"
@@ -64,25 +65,11 @@ export function DataTable<TData extends RowData>({
 						}
 						className="max-w-sm border rounded px-4 py-2 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					/>
+					<div className="flex-1 text-sm text-muted-foreground">
+						{table.getFilteredRowModel().rows.length} rows found
+					</div>
 				</div>
-				<div className="flex items-center space-x-2">
-					<button
-						className="border rounded px-4 py-2 hover:bg-gray-100 hover:cursor-pointer disabled:*:opacity-50 disabled:cursor-not-allowed"
-						type="button"
-						onClick={() => table.previousPage()}
-						disabled={!table.getCanPreviousPage()}
-					>
-						Previous
-					</button>
-					<button
-						className="border rounded px-4 py-2 hover:bg-gray-100 hover:cursor-pointer"
-						type="button"
-						onClick={() => table.nextPage()}
-						disabled={!table.getCanNextPage()}
-					>
-						Next
-					</button>
-				</div>
+				<DataTablePagination table={table} />
 			</div>
 
 			<div className="overflow-hidden rounded-md border">
