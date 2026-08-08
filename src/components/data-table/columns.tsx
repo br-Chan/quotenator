@@ -8,14 +8,14 @@ const columnHelper = createColumnHelper<DataTableFeatures, Quote>();
 export const columns = columnHelper.columns([
 	columnHelper.accessor("Quote", {
 		header: "Quote",
-		cell: (row) => <div className="whitespace-normal">{row.getValue()}</div>,
+		cell: (row) => <div className="whitespace-pre-wrap">{row.getValue()}</div>,
 	}),
 	columnHelper.accessor("Owner", {
 		header: "Owner",
 	}),
 	columnHelper.accessor("Context", {
 		header: "Context",
-		cell: (row) => <div className="whitespace-normal">{row.getValue()}</div>,
+		cell: (row) => <div className="whitespace-pre-wrap">{row.getValue()}</div>,
 	}),
 	columnHelper.accessor("Date", {
 		header: "Date",
