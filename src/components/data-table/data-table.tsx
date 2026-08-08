@@ -46,8 +46,16 @@ export function DataTable<TData extends RowData>({
 
 	return (
 		<div>
-			<div className="flex flex-row justify-between py-4">
-				<div className="flex items-center">
+			<div className="flex flex-row justify-between py-2">
+				<div className="flex items-center space-x-2">
+					<input
+						placeholder="Search quotes"
+						value={(table.getColumn("Quote")?.getFilterValue() as string) ?? ""}
+						onChange={(event) =>
+							table.getColumn("Quote")?.setFilterValue(event.target.value)
+						}
+						className="max-w-sm border rounded px-4 py-2 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+					/>
 					<input
 						placeholder="Search by person"
 						value={(table.getColumn("Owner")?.getFilterValue() as string) ?? ""}
