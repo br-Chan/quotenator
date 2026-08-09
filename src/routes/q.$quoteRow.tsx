@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Copy, Download } from "lucide-react";
 import { useRef } from "react";
 import { Status } from "use-google-sheets";
 import { useQuotes } from "#/hooks/useQuotes";
@@ -43,28 +44,30 @@ function RouteComponent() {
 
 	return (
 		<div className="p-8 container mx-auto items-center justify-center gap-2 flex flex-col">
-			<div className="w-lg flex flex-row justify-between py-2">
-				<Link
-					className="border rounded px-4 py-2 w-fit hover:bg-gray-100 hover:cursor-pointer"
-					to="/"
-				>
+			<div className="w-lg flex flex-row justify-between">
+				<Link className="btn btn-outline btn-sm" to="/">
 					Back
 				</Link>
-				<div className="flex items-center space-x-2">
-					<button
-						type="button"
-						className="border rounded px-4 py-2 w-fit hover:bg-gray-100 hover:cursor-pointer"
-						onClick={handleDownloadQuote}
-					>
-						Download Quote
-					</button>
-					<button
-						type="button"
-						className="border rounded px-4 py-2 w-fit hover:bg-gray-100 hover:cursor-pointer"
-						onClick={handleCopyQuote}
-					>
-						Copy to clipboard
-					</button>
+				<div className="flex items-center gap-2">
+					<div className="tooltip tooltip-bottom" data-tip="Download as image">
+						<button
+							type="button"
+							className="btn btn-neutral btn-outline btn-sm btn-square"
+							onClick={handleDownloadQuote}
+						>
+							<Download />
+						</button>
+					</div>
+
+					<div className="tooltip tooltip-bottom" data-tip="Copy to clipboard">
+						<button
+							type="button"
+							className="btn btn-outline btn-sm btn-square"
+							onClick={handleCopyQuote}
+						>
+							<Copy />
+						</button>
+					</div>
 				</div>
 			</div>
 
@@ -80,6 +83,25 @@ function RouteComponent() {
 					<p className="text-lg italic">{quote.Owner}</p>
 					<p className="text-md">{formatDate(quote.Date)}</p>
 				</div>
+			</div>
+
+			<div className="w-lg flex flex-row justify-between">
+				<Link
+					to={`/q/$quoteRow`}
+					params={{ quoteRow: (parseInt(quoteRow, 10) - 1).toString() }}
+					className="btn btn-outline btn-sm"
+					disabled={parseInt(quoteRow, 10) === 1}
+				>
+					Back
+				</Link>
+				<Link
+					to={`/q/$quoteRow`}
+					params={{ quoteRow: (parseInt(quoteRow, 10) + 1).toString() }}
+					className="btn btn-outline btn-sm"
+					disabled={parseInt(quoteRow, 10) === quotes.length}
+				>
+					Next
+				</Link>
 			</div>
 		</div>
 	);
