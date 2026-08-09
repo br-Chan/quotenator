@@ -71,17 +71,19 @@ function RouteComponent() {
 				</div>
 			</div>
 
-			<div
-				ref={quoteRef}
-				className="relative flex flex-col items-center justify-center aspect-square w-lg p-4 bg-[radial-gradient(circle,var(--color-amber-100),var(--color-amber-200))]"
-			>
-				<p className="mt-20 mb-20 text-4xl text-center whitespace-pre-wrap caudex-bold-italic">
-					{quote.Quote}
-				</p>
-				<div className="absolute bottom-4 items-center justify-center text-center">
-					<p>~</p>
-					<p className="text-lg italic">{quote.Owner}</p>
-					<p className="text-md">{formatDate(quote.Date)}</p>
+			<div className="tooltip tooltip-bottom" data-tip={`${quote.Context}`}>
+				<div
+					ref={quoteRef}
+					className="relative flex flex-col items-center justify-center aspect-square w-lg p-4 bg-[radial-gradient(circle,var(--color-amber-100),var(--color-amber-200))] cursor-default"
+				>
+					<p className="mt-20 mb-20 text-4xl text-center whitespace-pre-wrap caudex-bold-italic">
+						{quote.Quote}
+					</p>
+					<div className="absolute bottom-4 items-center justify-center text-center">
+						<p>~</p>
+						<p className="text-lg italic">{quote.Owner}</p>
+						<p className="text-md">{formatDate(quote.Date)}</p>
+					</div>
 				</div>
 			</div>
 
