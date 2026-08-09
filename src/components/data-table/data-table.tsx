@@ -8,6 +8,7 @@ import {
 	useTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
+import { categoryValues } from "#/types";
 import {
 	Table,
 	TableBody,
@@ -47,26 +48,56 @@ export function DataTable<TData extends RowData>({
 
 	return (
 		<div>
-			<div className="flex flex-col gap-2 lg:flex-row lg:justify-between py-2">
-				<div className="flex items-center gap-2">
-					<input
-						className="input input-sm border-black"
-						type="text"
-						placeholder="Search quotes"
-						value={(table.getColumn("Quote")?.getFilterValue() as string) ?? ""}
-						onChange={(event) =>
-							table.getColumn("Quote")?.setFilterValue(event.target.value)
-						}
-					/>
-					<input
-						className="input input-sm border-black"
-						type="text"
-						placeholder="Search by person"
-						value={(table.getColumn("Owner")?.getFilterValue() as string) ?? ""}
-						onChange={(event) =>
-							table.getColumn("Owner")?.setFilterValue(event.target.value)
-						}
-					/>
+			<div className="flex flex-col gap-2 py-2 lg:flex-row lg:justify-between">
+				<div className="grid items-center gap-2 lg:grid-cols-4">
+					<label className="floating-label min-w-0 w-full">
+						<span>Quotes</span>
+						<input
+							className="input input-sm w-full border-black"
+							type="text"
+							placeholder="Search quotes"
+							value={
+								(table.getColumn("Quote")?.getFilterValue() as string) ?? ""
+							}
+							onChange={(event) =>
+								table.getColumn("Quote")?.setFilterValue(event.target.value)
+							}
+						/>
+					</label>
+					<label className="floating-label min-w-0 w-full">
+						<span>Person</span>
+						<input
+							className="input input-sm w-full border-black"
+							type="text"
+							placeholder="Search by person"
+							value={
+								(table.getColumn("Owner")?.getFilterValue() as string) ?? ""
+							}
+							onChange={(event) =>
+								table.getColumn("Owner")?.setFilterValue(event.target.value)
+							}
+						/>
+					</label>
+					<label className="floating-label min-w-0 w-full">
+						<span>Category</span>
+						<select
+							className="select select-sm w-full border-black"
+							onChange={(e) =>
+								table.getColumn("Category")?.setFilterValue(e.target.value)
+							}
+							defaultValue=""
+							value={
+								(table.getColumn("Category")?.getFilterValue() as string) ?? ""
+							}
+						>
+							<option value="">All categories</option>
+							{categoryValues.map((category) => (
+								<option key={category} value={category}>
+									{category}
+								</option>
+							))}
+						</select>
+					</label>
 					<span className="text-sm text-muted-foreground whitespace-nowrap">
 						{table.getFilteredRowModel().rows.length} rows found
 					</span>

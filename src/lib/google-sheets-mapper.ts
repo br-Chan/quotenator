@@ -1,5 +1,5 @@
 import { fetchGoogleSheetsData } from "google-sheets-mapper";
-import type { Quote } from "#/types";
+import { QUOTES_SHEET_NAME, type Quote } from "#/types";
 
 const getQuotes = async () => {
 	if (
@@ -17,7 +17,7 @@ const getQuotes = async () => {
 			sheetId: import.meta.env.VITE_GOOGLE_SHEETS_ID,
 			sheetsOptions: [
 				{
-					id: "Quotes",
+					id: QUOTES_SHEET_NAME,
 				},
 			],
 		});
