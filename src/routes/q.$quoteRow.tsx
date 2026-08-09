@@ -1,9 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useLoaderData } from "@tanstack/react-router";
 import { Copy, Download } from "lucide-react";
 import { useRef } from "react";
 import { toast } from "sonner";
-import { Status } from "use-google-sheets";
-import { useQuotes } from "#/hooks/useQuotes";
 import {
 	copyDivAsImageToClipboard,
 	downloadDivAsImage,
@@ -19,15 +17,7 @@ function RouteComponent() {
 
 	const quoteRef = useRef<HTMLDivElement>(null);
 
-	const { status, quotes, error } = useQuotes();
-
-	if (status === Status.pending) {
-		return <div>Loading...</div>;
-	}
-
-	if (status === Status.error) {
-		return <div>Error: {error?.message}</div>;
-	}
+	const quotes = useLoaderData({ from: "__root__" });
 
 	const quote = quotes[parseInt(quoteRow, 10) - 1];
 

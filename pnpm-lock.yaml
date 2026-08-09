@@ -23,6 +23,9 @@ importers:
       '@tanstack/react-table':
         specifier: ^9.0.0
         version: 9.0.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      google-sheets-mapper:
+        specifier: ^2.2.0
+        version: 2.2.0
       html-to-image:
         specifier: ^1.11.13
         version: 1.11.13
@@ -41,9 +44,6 @@ importers:
       tailwindcss:
         specifier: ^4.1.18
         version: 4.3.3
-      use-google-sheets:
-        specifier: ^3.0.0
-        version: 3.0.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
     devDependencies:
       '@biomejs/biome':
         specifier: 2.4.5
@@ -1275,13 +1275,6 @@ packages:
     peerDependencies:
       browserslist: '>= 4.21.0'
 
-  use-google-sheets@3.0.0:
-    resolution: {integrity: sha512-nN4CorMyU9NzquzTTmpDDPUAmFzYlNdNuNor95Rbh4pjGNb+iy9XYWhfXkIUQ3G6cf7oKqeV6gi+Lq1nHTE2Jw==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      react: '>=18'
-      react-dom: '>=18'
-
   use-sync-external-store@1.6.0:
     resolution: {integrity: sha512-Pp6GSwGP/NrPIrxVFAIkOQeyw8lFenOHijQWkUTrDvrF4ALqylP2C/KCkeS9dpUM3KvYRQhna5vt7IL95+ZQ9w==}
     peerDependencies:
@@ -2389,12 +2382,6 @@ snapshots:
       browserslist: 4.28.7
       escalade: 3.2.0
       picocolors: 1.1.1
-
-  use-google-sheets@3.0.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
-    dependencies:
-      google-sheets-mapper: 2.2.0
-      react: 19.2.8
-      react-dom: 19.2.8(react@19.2.8)
 
   use-sync-external-store@1.6.0(react@19.2.8):
     dependencies:

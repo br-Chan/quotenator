@@ -1,23 +1,22 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Status } from "use-google-sheets";
+import {
+	createFileRoute,
+	useLoaderData,
+	useNavigate,
+} from "@tanstack/react-router";
 import { columns } from "#/components/data-table/columns";
 import { DataTable } from "#/components/data-table/data-table";
-import { useQuotes } from "#/hooks/useQuotes";
 
-export const Route = createFileRoute("/")({ component: Home });
+export const Route = createFileRoute("/")({
+	component: Home,
+	pendingComponent: HomePending,
+});
 
 function Home() {
 	const navigate = useNavigate({ from: Route.id });
 
-	const { status, quotes, error } = useQuotes();
-
-	if (status === Status.pending) {
-		return <div>Loading...</div>;
-	}
-
-	if (status === Status.error) {
-		return <div>Error: {error?.message}</div>;
-	}
+	const quotes = useLoaderData({
+		from: "__root__",
+	});
 
 	return (
 		<div className="p-8">
@@ -34,6 +33,15 @@ function Home() {
 					}
 				/>
 			</div>
+		</div>
+	);
+}
+
+function HomePending() {
+	return (
+		<div className="p-8">
+			<h1 className="text-4xl font-bold">The Quotenator</h1>
+			<div className="container mx-auto py-10">Loading...</div>
 		</div>
 	);
 }

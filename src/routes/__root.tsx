@@ -4,9 +4,13 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
 import "../styles.css";
 import { Toaster } from "sonner";
+import getQuotes from "#/lib/google-sheets-mapper";
 
 export const Route = createRootRoute({
 	component: RootComponent,
+	loader: async () => {
+		return getQuotes();
+	},
 });
 
 function RootComponent() {
