@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Copy, Download } from "lucide-react";
 import { useRef } from "react";
+import { toast } from "sonner";
 import { Status } from "use-google-sheets";
 import { useQuotes } from "#/hooks/useQuotes";
 import {
@@ -32,13 +33,22 @@ function RouteComponent() {
 
 	const handleDownloadQuote = async () => {
 		if (quoteRef.current) {
-			await downloadDivAsImage(quoteRef.current, `quote-${quoteRow}.png`);
+			try {
+				await downloadDivAsImage(quoteRef.current, `quote-${quoteRow}.png`);
+			} catch (error) {
+				toast.error("Failed to download quote as image.");
+			}
 		}
 	};
 
 	const handleCopyQuote = async () => {
 		if (quoteRef.current) {
-			await copyDivAsImageToClipboard(quoteRef.current);
+			try {
+				await copyDivAsImageToClipboard(quoteRef.current);
+				toast.success("Quote copied as image!");
+			} catch (error) {
+				toast.error("Failed to copy quote to clipboard.");
+			}
 		}
 	};
 
