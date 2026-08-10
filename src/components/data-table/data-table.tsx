@@ -8,7 +8,7 @@ import {
 	useTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import { categoryValues } from "#/types";
+import { categoryValues } from "#/types/quotes";
 import {
 	Table,
 	TableBody,

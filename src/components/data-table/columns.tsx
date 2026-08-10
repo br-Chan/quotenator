@@ -1,5 +1,5 @@
 import { createColumnHelper } from "@tanstack/react-table";
-import type { Quote } from "#/types";
+import type { Quote } from "#/types/quotes";
 import type { DataTableFeatures } from "./data-table-features";
 
 // Use `accessor` for data columns and `display` for columns without one.

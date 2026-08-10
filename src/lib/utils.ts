@@ -1,15 +1,18 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import type { Quote } from "#/types";
+import type { Quote } from "#/types/quotes";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
 
-// Function expects date to be of form DD/MM/YYYY
-export function formatDate(date: string): string {
+export function parseDate(date: string): Date {
 	const [day, month, year] = date.split("/");
-	const parsedDate = new Date(Number(year), Number(month) - 1, Number(day));
+	return new Date(Number(year), Number(month) - 1, Number(day));
+}
+
+export function formatDate(date: string): string {
+	const parsedDate = parseDate(date);
 	return Intl.DateTimeFormat("en-NZ", {
 		day: "numeric",
 		month: "long",

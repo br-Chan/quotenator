@@ -1,5 +1,5 @@
 import { fetchGoogleSheetsData } from "google-sheets-mapper";
-import { QUOTES_SHEET_NAME, type Quote } from "#/types";
+import { QUOTES_SHEET_NAME, type Quote } from "#/types/quotes";
 
 const getQuotes = async () => {
 	if (

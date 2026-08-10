@@ -3,6 +3,7 @@ import {
 	useLoaderData,
 	useNavigate,
 } from "@tanstack/react-router";
+import { CumulativeChart } from "#/components/chart/cumulative-chart";
 import { columns } from "#/components/data-table/columns";
 import { DataTable } from "#/components/data-table/data-table";
 
@@ -33,6 +34,8 @@ function Home() {
 					}
 				/>
 			</div>
+			<h2 className="text-3xl mb-4 text-center">Top Quoters</h2>
+			<CumulativeChart quotes={quotes} />
 		</div>
 	);
 }
