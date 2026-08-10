@@ -9,14 +9,9 @@ import {
 	YAxis,
 } from "recharts";
 import { createCumulativeData, getTopOwners } from "#/lib/chart-data";
-import { COLOURS } from "#/types/chart";
-import type { Quote } from "#/types/quotes";
+import { type ChartProps, COLOURS } from "#/types/chart";
 
-interface CumulativeChartProps {
-	quotes: Quote[];
-}
-
-export function CumulativeChart({ quotes }: CumulativeChartProps) {
+export function CumulativeChart({ quotes }: ChartProps) {
 	const owners = getTopOwners(quotes, 8);
 	const chartData = createCumulativeData(quotes);
 

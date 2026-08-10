@@ -89,4 +89,4 @@ const getTopOwners = (quotes: Quote[], topN: number): string[] => {
 		.slice(0, topN);
 };
 
-export { createCumulativeData, getOwners, getTopOwners };
+export { createCumulativeData, getOwners, getTopOwners, splitOwners };

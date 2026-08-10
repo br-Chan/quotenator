@@ -4,6 +4,7 @@ import {
 	useNavigate,
 } from "@tanstack/react-router";
 import { CumulativeChart } from "#/components/chart/cumulative-chart";
+import { OwnerChart } from "#/components/chart/owner-chart";
 import { columns } from "#/components/data-table/columns";
 import { DataTable } from "#/components/data-table/data-table";
 
@@ -34,8 +35,12 @@ function Home() {
 					}
 				/>
 			</div>
+
 			<h2 className="text-3xl mb-4 text-center">Top Quoters</h2>
 			<CumulativeChart quotes={quotes} />
+
+			<h2 className="text-3xl mb-4 text-center">Quotes Leaderboard</h2>
+			<OwnerChart quotes={quotes} />
 		</div>
 	);
 }

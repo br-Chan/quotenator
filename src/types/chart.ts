@@ -1,6 +1,17 @@
+import type { Quote } from "./quotes";
+
+interface ChartProps {
+	quotes: Quote[];
+}
+
 type CumulativeChartPoint = {
 	date: Date;
 	[owner: string]: Date | number;
+};
+
+type OwnerChartPoint = {
+	owner: string;
+	count: number;
 };
 
 const COLOURS = [
@@ -16,4 +27,9 @@ const COLOURS = [
 	"#721378",
 ] as const;
 
-export { type CumulativeChartPoint, COLOURS };
+export {
+	type CumulativeChartPoint,
+	type ChartProps,
+	type OwnerChartPoint,
+	COLOURS,
+};
