@@ -1,12 +1,16 @@
 import { createFileRoute, Link, useLoaderData } from "@tanstack/react-router";
-import { Copy, Download } from "lucide-react";
+import { ArrowLeft, ArrowRight, Copy, Download } from "lucide-react";
 import { useRef } from "react";
 import { toast } from "sonner";
 import {
 	copyDivAsImageToClipboard,
 	downloadDivAsImage,
 } from "#/lib/html-to-image";
-import { formatDate } from "#/lib/utils";
+import {
+	findNextQuoteInCategory,
+	findPreviousQuoteInCategory,
+	formatDate,
+} from "#/lib/utils";
 
 export const Route = createFileRoute("/q/$quoteRow")({
 	component: RouteComponent,
@@ -41,6 +45,15 @@ function RouteComponent() {
 			}
 		}
 	};
+
+	const nextQuoteInCategoryIndex = findNextQuoteInCategory(
+		quotes,
+		parseInt(quoteRow, 10) - 1,
+	);
+	const previousQuoteInCategoryIndex = findPreviousQuoteInCategory(
+		quotes,
+		parseInt(quoteRow, 10) - 1,
+	);
 
 	return (
 		<div className="p-8 container mx-auto items-center justify-center gap-2 flex flex-col">
@@ -88,22 +101,53 @@ function RouteComponent() {
 			</div>
 
 			<div className="w-lg flex flex-row justify-between">
-				<Link
-					to={`/q/$quoteRow`}
-					params={{ quoteRow: (parseInt(quoteRow, 10) - 1).toString() }}
-					className="btn btn-outline btn-sm"
-					disabled={parseInt(quoteRow, 10) === 1}
-				>
-					Back
-				</Link>
-				<Link
-					to={`/q/$quoteRow`}
-					params={{ quoteRow: (parseInt(quoteRow, 10) + 1).toString() }}
-					className="btn btn-outline btn-sm"
-					disabled={parseInt(quoteRow, 10) === quotes.length}
-				>
-					Next
-				</Link>
+				<div className="flex flex-col items-start gap-2">
+					<Link
+						to={`/q/$quoteRow`}
+						params={{ quoteRow: (parseInt(quoteRow, 10) - 1).toString() }}
+						className="btn btn-outline btn-sm"
+						disabled={parseInt(quoteRow, 10) === 1}
+					>
+						<ArrowLeft />
+					</Link>
+					<Link
+						to={`/q/$quoteRow`}
+						params={{
+							quoteRow:
+								previousQuoteInCategoryIndex !== null
+									? (previousQuoteInCategoryIndex + 1).toString()
+									: quoteRow,
+						}}
+						className="btn btn-outline btn-sm"
+						disabled={previousQuoteInCategoryIndex === null}
+					>
+						<ArrowLeft /> from {quote.Category}
+					</Link>
+				</div>
+
+				<div className="flex flex-col items-end gap-2">
+					<Link
+						to={`/q/$quoteRow`}
+						params={{ quoteRow: (parseInt(quoteRow, 10) + 1).toString() }}
+						className="btn btn-outline btn-sm"
+						disabled={parseInt(quoteRow, 10) === quotes.length}
+					>
+						<ArrowRight />
+					</Link>{" "}
+					<Link
+						to={`/q/$quoteRow`}
+						params={{
+							quoteRow:
+								nextQuoteInCategoryIndex !== null
+									? (nextQuoteInCategoryIndex + 1).toString()
+									: quoteRow,
+						}}
+						className="btn btn-outline btn-sm"
+						disabled={nextQuoteInCategoryIndex === null}
+					>
+						<ArrowRight /> from {quote.Category}
+					</Link>
+				</div>
 			</div>
 		</div>
 	);
