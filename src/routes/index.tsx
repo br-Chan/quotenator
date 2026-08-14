@@ -7,13 +7,18 @@ import { CumulativeChart } from "#/components/chart/cumulative-chart";
 import { OwnerChart } from "#/components/chart/owner-chart";
 import { columns } from "#/components/data-table/columns";
 import { DataTable } from "#/components/data-table/data-table";
+import { type QuoteSearch, validateQuoteSearch } from "#/types/search";
 
 export const Route = createFileRoute("/")({
 	component: Home,
 	pendingComponent: HomePending,
+	validateSearch: (search: Record<string, unknown>): QuoteSearch => {
+		return validateQuoteSearch(search);
+	},
 });
 
 function Home() {
+	const quoteSearch = Route.useSearch();
 	const navigate = useNavigate({ from: Route.id });
 
 	const quotes = useLoaderData({
@@ -33,6 +38,13 @@ function Home() {
 							params: { quoteRow: (quotes.indexOf(rowData) + 1).toString() },
 						})
 					}
+					quoteSearch={quoteSearch}
+					onSearchChange={(updates) => {
+						navigate({
+							search: (prev: QuoteSearch) => ({ ...prev, ...updates }),
+							replace: true,
+						});
+					}}
 				/>
 			</div>
 

@@ -58,8 +58,8 @@ function RouteComponent() {
 	return (
 		<div className="p-8 container mx-auto items-center justify-center gap-2 flex flex-col">
 			<div className="w-lg flex flex-row justify-between">
-				<Link className="btn btn-outline btn-sm" to="/">
-					Back
+				<Link className="btn btn-outline btn-sm" to="/" search={{}}>
+					Quotenator
 				</Link>
 				<div className="flex items-center gap-2">
 					<div className="tooltip tooltip-bottom" data-tip="Download as image">

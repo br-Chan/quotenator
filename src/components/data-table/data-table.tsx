@@ -4,11 +4,13 @@ import {
 	type ColumnDef,
 	type ColumnFiltersState,
 	type RowData,
-	type SortingState,
 	useTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
+import { filtersToSearch, searchToFilters } from "#/lib/search";
 import { categoryValues } from "#/types/quotes";
+import type { QuoteSearch } from "#/types/search";
 import {
 	Table,
 	TableBody,
@@ -24,27 +26,50 @@ interface DataTableProps<TData extends RowData> {
 	columns: ColumnDef<DataTableFeatures, TData>[];
 	data: TData[];
 	onRowClick?: (rowData: TData) => void;
+	quoteSearch: QuoteSearch;
+	onSearchChange: (updates: QuoteSearch) => void;
 }
 
 export function DataTable<TData extends RowData>({
 	columns,
 	data,
 	onRowClick = () => {},
+	quoteSearch,
+	onSearchChange,
 }: DataTableProps<TData>) {
-	const [sorting, setSorting] = useState<SortingState>([]);
-	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+	const columnFilters: ColumnFiltersState = searchToFilters(quoteSearch);
 
 	const table = useTable({
 		features,
 		data,
 		columns,
-		onSortingChange: setSorting,
-		onColumnFiltersChange: setColumnFilters,
+		onColumnFiltersChange: (updater) => {
+			const newFilters =
+				typeof updater === "function" ? updater(columnFilters) : updater;
+
+			onSearchChange({
+				...filtersToSearch(newFilters),
+				page: 1,
+			});
+		},
 		state: {
-			sorting,
 			columnFilters,
 		},
 	});
+
+	const [textInputValues, setTextInputValues] = useState<{
+		[key: string]: string;
+	}>({
+		Quote: (table.getColumn("Quote")?.getFilterValue() as string) ?? "",
+		Owner: (table.getColumn("Owner")?.getFilterValue() as string) ?? "",
+	});
+
+	const debouncedOnSearchChange = useDebouncedCallback(
+		(column: string, value: string) => {
+			table.getColumn(column)?.setFilterValue(value);
+		},
+		150,
+	);
 
 	return (
 		<div>
@@ -56,12 +81,14 @@ export function DataTable<TData extends RowData>({
 							className="input input-sm w-full border-black"
 							type="text"
 							placeholder="Search quotes"
-							value={
-								(table.getColumn("Quote")?.getFilterValue() as string) ?? ""
-							}
-							onChange={(event) =>
-								table.getColumn("Quote")?.setFilterValue(event.target.value)
-							}
+							value={textInputValues.Quote}
+							onChange={(event) => {
+								setTextInputValues({
+									...textInputValues,
+									Quote: event.target.value,
+								});
+								debouncedOnSearchChange("Quote", event.target.value);
+							}}
 						/>
 					</label>
 					<label className="floating-label min-w-0 w-full">
@@ -70,12 +97,14 @@ export function DataTable<TData extends RowData>({
 							className="input input-sm w-full border-black"
 							type="text"
 							placeholder="Search by person"
-							value={
-								(table.getColumn("Owner")?.getFilterValue() as string) ?? ""
-							}
-							onChange={(event) =>
-								table.getColumn("Owner")?.setFilterValue(event.target.value)
-							}
+							value={textInputValues.Owner}
+							onChange={(event) => {
+								setTextInputValues({
+									...textInputValues,
+									Owner: event.target.value,
+								});
+								debouncedOnSearchChange("Owner", event.target.value);
+							}}
 						/>
 					</label>
 					<label className="floating-label min-w-0 w-full">
