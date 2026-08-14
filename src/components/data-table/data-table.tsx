@@ -3,12 +3,18 @@
 import {
 	type ColumnDef,
 	type ColumnFiltersState,
+	type PaginationState,
 	type RowData,
 	useTable,
 } from "@tanstack/react-table";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import { filtersToSearch, searchToFilters } from "#/lib/search";
+import {
+	filtersToSearch,
+	paginationStateToSearch,
+	searchToFilters,
+	searchToPaginationState,
+} from "#/lib/search";
 import { categoryValues } from "#/types/quotes";
 import type { QuoteSearch } from "#/types/search";
 import {
@@ -37,7 +43,14 @@ export function DataTable<TData extends RowData>({
 	quoteSearch,
 	onSearchChange,
 }: DataTableProps<TData>) {
-	const columnFilters: ColumnFiltersState = searchToFilters(quoteSearch);
+	const columnFilters: ColumnFiltersState = useMemo(
+		() => searchToFilters(quoteSearch),
+		[quoteSearch],
+	);
+	const pagination: PaginationState = useMemo(
+		() => searchToPaginationState(quoteSearch),
+		[quoteSearch],
+	);
 
 	const table = useTable({
 		features,
@@ -49,11 +62,20 @@ export function DataTable<TData extends RowData>({
 
 			onSearchChange({
 				...filtersToSearch(newFilters),
-				page: 1,
+				page: undefined,
 			});
 		},
+		onPaginationChange: (updater) => {
+			const newPagination =
+				typeof updater === "function" ? updater(pagination) : updater;
+			onSearchChange({
+				...paginationStateToSearch(newPagination),
+			});
+		},
+		autoResetPageIndex: false,
 		state: {
 			columnFilters,
+			pagination,
 		},
 	});
 
@@ -83,10 +105,10 @@ export function DataTable<TData extends RowData>({
 							placeholder="Search quotes"
 							value={textInputValues.Quote}
 							onChange={(event) => {
-								setTextInputValues({
-									...textInputValues,
+								setTextInputValues((previous) => ({
+									...previous,
 									Quote: event.target.value,
-								});
+								}));
 								debouncedOnSearchChange("Quote", event.target.value);
 							}}
 						/>
@@ -99,10 +121,10 @@ export function DataTable<TData extends RowData>({
 							placeholder="Search by person"
 							value={textInputValues.Owner}
 							onChange={(event) => {
-								setTextInputValues({
-									...textInputValues,
+								setTextInputValues((previous) => ({
+									...previous,
 									Owner: event.target.value,
-								});
+								}));
 								debouncedOnSearchChange("Owner", event.target.value);
 							}}
 						/>

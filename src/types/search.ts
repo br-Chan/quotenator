@@ -8,8 +8,8 @@ type QuoteSearch = {
 
 const validateQuoteSearch = (search: Record<string, unknown>): QuoteSearch => {
 	return {
-		page: Number(search?.page) || 1,
-		pageSize: Number(search?.pageSize) || 10,
+		page: Number(search?.page) || undefined,
+		pageSize: Number(search?.pageSize) || undefined,
 		q: String(search?.q) !== "undefined" ? String(search?.q) : undefined,
 		owner:
 			String(search?.owner) !== "undefined" ? String(search?.owner) : undefined,

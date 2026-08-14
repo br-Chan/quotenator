@@ -1,4 +1,7 @@
-import type { ColumnFiltersState } from "@tanstack/react-table";
+import type {
+	ColumnFiltersState,
+	PaginationState,
+} from "@tanstack/react-table";
 import type { Category } from "#/types/quotes";
 import type { QuoteSearch } from "#/types/search";
 
@@ -24,4 +27,23 @@ const searchToFilters = (search: QuoteSearch): ColumnFiltersState => {
 	];
 };
 
-export { filtersToSearch, searchToFilters };
+const paginationStateToSearch = (pagination: PaginationState): QuoteSearch => {
+	return {
+		page: pagination.pageIndex + 1,
+		pageSize: pagination.pageSize,
+	};
+};
+
+const searchToPaginationState = (search: QuoteSearch): PaginationState => {
+	return {
+		pageIndex: (search.page ?? 1) - 1,
+		pageSize: search.pageSize ?? 10,
+	};
+};
+
+export {
+	filtersToSearch,
+	searchToFilters,
+	paginationStateToSearch,
+	searchToPaginationState,
+};
