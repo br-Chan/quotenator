@@ -1,4 +1,10 @@
-import { createFileRoute, Link, useLoaderData } from "@tanstack/react-router";
+import {
+	createFileRoute,
+	Link,
+	useCanGoBack,
+	useLoaderData,
+	useRouter,
+} from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Copy, Download } from "lucide-react";
 import { useRef } from "react";
 import { toast } from "sonner";
@@ -17,6 +23,8 @@ export const Route = createFileRoute("/q/$quoteRow")({
 });
 
 function RouteComponent() {
+	const router = useRouter();
+	const canGoBack = useCanGoBack();
 	const { quoteRow } = Route.useParams();
 
 	const quoteRef = useRef<HTMLDivElement>(null);
@@ -58,9 +66,22 @@ function RouteComponent() {
 	return (
 		<div className="p-8 container mx-auto items-center justify-center gap-2 flex flex-col">
 			<div className="w-lg flex flex-row justify-between">
-				<Link className="btn btn-outline btn-sm" to="/" search={{}}>
-					Quotenator
-				</Link>
+				<div>
+					{canGoBack ? (
+						<button
+							type="button"
+							className="btn btn-outline btn-sm"
+							onClick={() => router.history.back()}
+						>
+							Back
+						</button>
+					) : (
+						<Link className="btn btn-outline btn-sm" to="/">
+							Quotenator
+						</Link>
+					)}
+				</div>
+
 				<div className="flex items-center gap-2">
 					<div className="tooltip tooltip-bottom" data-tip="Download as image">
 						<button
