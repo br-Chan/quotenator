@@ -64,7 +64,7 @@ function RouteComponent() {
 	);
 
 	return (
-		<div className="w-md py-4 container mx-auto items-center justify-center gap-2 flex flex-col">
+		<div className="w-xs sm:w-sm md:w-md py-4 container mx-auto items-center justify-center gap-2 flex flex-col">
 			<div className="flex flex-row w-full justify-between">
 				<div>
 					{canGoBack ? (
@@ -105,12 +105,15 @@ function RouteComponent() {
 				</div>
 			</div>
 
-			<div className="tooltip tooltip-bottom" data-tip={`${quote.Context}`}>
+			<div
+				className="w-full tooltip tooltip-bottom"
+				data-tip={`${quote.Context}`}
+			>
 				<div
 					ref={quoteRef}
-					className="relative flex flex-col items-center justify-center aspect-square p-4 bg-[radial-gradient(circle,var(--color-amber-100),var(--color-amber-200))] cursor-default"
+					className="w-full relative flex flex-col items-center justify-center aspect-square p-4 bg-[radial-gradient(circle,var(--color-amber-100),var(--color-amber-200))] cursor-default"
 				>
-					<p className="mt-20 mb-20 text-4xl text-center whitespace-pre-wrap caudex-bold-italic">
+					<p className="mt-20 mb-20 text-2xl sm:text-3xl md:text-4xl text-center whitespace-pre-wrap caudex-bold-italic">
 						{quote.Quote}
 					</p>
 					<div className="absolute bottom-4 items-center justify-center text-center">
