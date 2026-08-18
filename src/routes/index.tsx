@@ -26,9 +26,8 @@ function Home() {
 	});
 
 	return (
-		<div className="p-8">
-			<h1 className="text-4xl font-bold">The Quotenator</h1>
-			<div className="container mx-auto py-10">
+		<>
+			<div className="container mx-auto py-4">
 				<DataTable
 					columns={columns}
 					data={quotes}
@@ -53,7 +52,7 @@ function Home() {
 
 			<h2 className="text-3xl mb-4 text-center">Quotes Leaderboard</h2>
 			<OwnerChart quotes={quotes} />
-		</div>
+		</>
 	);
 }
 

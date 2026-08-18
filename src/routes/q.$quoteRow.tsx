@@ -64,7 +64,7 @@ function RouteComponent() {
 	);
 
 	return (
-		<div className="w-xs sm:w-sm md:w-md lg:w-lg py-8 container mx-auto items-center justify-center gap-2 flex flex-col">
+		<div className="w-md py-4 container mx-auto items-center justify-center gap-2 flex flex-col">
 			<div className="flex flex-row w-full justify-between">
 				<div>
 					{canGoBack ? (
