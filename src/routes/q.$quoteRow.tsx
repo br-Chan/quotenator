@@ -64,8 +64,8 @@ function RouteComponent() {
 	);
 
 	return (
-		<div className="p-8 container mx-auto items-center justify-center gap-2 flex flex-col">
-			<div className="w-lg flex flex-row justify-between">
+		<div className="w-xs sm:w-sm md:w-md lg:w-lg py-8 container mx-auto items-center justify-center gap-2 flex flex-col">
+			<div className="flex flex-row w-full justify-between">
 				<div>
 					{canGoBack ? (
 						<button
@@ -108,7 +108,7 @@ function RouteComponent() {
 			<div className="tooltip tooltip-bottom" data-tip={`${quote.Context}`}>
 				<div
 					ref={quoteRef}
-					className="relative flex flex-col items-center justify-center aspect-square w-lg p-4 bg-[radial-gradient(circle,var(--color-amber-100),var(--color-amber-200))] cursor-default"
+					className="relative flex flex-col items-center justify-center aspect-square p-4 bg-[radial-gradient(circle,var(--color-amber-100),var(--color-amber-200))] cursor-default"
 				>
 					<p className="mt-20 mb-20 text-4xl text-center whitespace-pre-wrap caudex-bold-italic">
 						{quote.Quote}
@@ -121,7 +121,7 @@ function RouteComponent() {
 				</div>
 			</div>
 
-			<div className="w-lg flex flex-row justify-between">
+			<div className="w-full flex flex-row justify-between">
 				<div className="flex flex-col items-start gap-2">
 					<Link
 						to={`/q/$quoteRow`}
@@ -154,7 +154,7 @@ function RouteComponent() {
 						disabled={parseInt(quoteRow, 10) === quotes.length}
 					>
 						<ArrowRight />
-					</Link>{" "}
+					</Link>
 					<Link
 						to={`/q/$quoteRow`}
 						params={{
