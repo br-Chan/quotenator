@@ -113,7 +113,7 @@ function RouteComponent() {
 					ref={quoteRef}
 					className="w-full relative flex flex-col items-center justify-center aspect-square p-4 bg-[radial-gradient(circle,var(--color-amber-100),var(--color-amber-200))] cursor-default"
 				>
-					<p className="xs:my-12 sm:my-16 md:my-20 text-2xl sm:text-3xl md:text-4xl text-center whitespace-pre-wrap caudex-bold-italic">
+					<p className="my-12 sm:my-16 md:my-20 text-2xl sm:text-3xl md:text-4xl text-center whitespace-pre-wrap caudex-bold-italic">
 						{quote.Quote}
 					</p>
 					<div className="absolute bottom-4 items-center justify-center text-center">
