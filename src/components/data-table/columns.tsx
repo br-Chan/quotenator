@@ -1,4 +1,6 @@
 import { createColumnHelper } from "@tanstack/react-table";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import type { Quote } from "#/types/quotes";
 import type { DataTableFeatures } from "./data-table-features";
 
@@ -8,7 +10,11 @@ const columnHelper = createColumnHelper<DataTableFeatures, Quote>();
 export const columns = columnHelper.columns([
 	columnHelper.accessor("Quote", {
 		header: "Quote",
-		cell: (row) => <div className="whitespace-pre-wrap">{row.getValue()}</div>,
+		cell: (row) => (
+			<div className="whitespace-pre-wrap">
+				<Markdown remarkPlugins={[remarkGfm]}>{row.getValue()}</Markdown>
+			</div>
+		),
 	}),
 	columnHelper.accessor("Owner", {
 		header: "Owner",

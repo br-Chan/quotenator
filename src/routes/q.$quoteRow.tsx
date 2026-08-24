@@ -7,6 +7,8 @@ import {
 } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Copy, Download } from "lucide-react";
 import { useRef } from "react";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
 import {
 	copyDivAsImageToClipboard,
@@ -114,7 +116,7 @@ function RouteComponent() {
 					className="w-full relative flex flex-col items-center justify-center aspect-square p-4 bg-[radial-gradient(circle,var(--color-amber-100),var(--color-amber-200))] cursor-default"
 				>
 					<p className="my-12 sm:my-16 md:my-20 text-2xl sm:text-3xl md:text-4xl text-center whitespace-pre-wrap caudex-bold-italic">
-						{quote.Quote}
+						<Markdown remarkPlugins={[remarkGfm]}>{quote.Quote}</Markdown>
 					</p>
 					<div className="absolute bottom-4 items-center justify-center text-center">
 						<p>~</p>
