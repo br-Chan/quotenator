@@ -1,4 +1,5 @@
 import { createColumnHelper } from "@tanstack/react-table";
+import { ArrowUpDown } from "lucide-react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import type { Quote } from "#/types/quotes";
@@ -24,7 +25,19 @@ export const columns = columnHelper.columns([
 		cell: (row) => <div className="whitespace-pre-wrap">{row.getValue()}</div>,
 	}),
 	columnHelper.accessor("Date", {
-		header: "Date",
+		header: ({ column }) => {
+			return (
+				<button
+					className="btn btn-sm btn-ghost"
+					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+					type="button"
+				>
+					Date
+					<ArrowUpDown className="ml-2 h-4 w-4" />
+				</button>
+			);
+		},
+		sortFn: "datetime",
 	}),
 	columnHelper.accessor("Type", {
 		header: "Type",

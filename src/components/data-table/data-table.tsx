@@ -5,6 +5,7 @@ import {
 	type ColumnFiltersState,
 	type PaginationState,
 	type RowData,
+	type SortingState,
 	useTable,
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
@@ -51,6 +52,12 @@ export function DataTable<TData extends RowData>({
 		() => searchToPaginationState(quoteSearch),
 		[quoteSearch],
 	);
+	const [sorting, setSorting] = useState<SortingState>([
+		{
+			id: "Date",
+			desc: true,
+		},
+	]);
 
 	const table = useTable({
 		features,
@@ -72,10 +79,12 @@ export function DataTable<TData extends RowData>({
 				...paginationStateToSearch(newPagination),
 			});
 		},
+		onSortingChange: setSorting,
 		autoResetPageIndex: false,
 		state: {
 			columnFilters,
 			pagination,
+			sorting,
 		},
 	});
 
