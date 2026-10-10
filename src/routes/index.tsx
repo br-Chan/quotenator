@@ -26,33 +26,25 @@ function Home() {
 	});
 
 	return (
-		<>
-			<div className="container mx-auto py-4">
-				<DataTable
-					columns={columns}
-					data={quotes}
-					onRowClick={(rowData) =>
-						navigate({
-							to: "/q/$quoteRow",
-							params: { quoteRow: (quotes.indexOf(rowData) + 1).toString() },
-						})
-					}
-					quoteSearch={quoteSearch}
-					onSearchChange={(updates) => {
-						navigate({
-							search: (prev: QuoteSearch) => ({ ...prev, ...updates }),
-							replace: true,
-						});
-					}}
-				/>
-			</div>
-
-			<h2 className="text-3xl mb-4 text-center">Top Quoters</h2>
-			<CumulativeChart quotes={quotes} />
-
-			<h2 className="text-3xl mb-4 text-center">Quotes Leaderboard</h2>
-			<OwnerChart quotes={quotes} />
-		</>
+		<div className="container mx-auto py-4">
+			<DataTable
+				columns={columns}
+				data={quotes}
+				onRowClick={(rowData) =>
+					navigate({
+						to: "/q/$quoteRow",
+						params: { quoteRow: (quotes.indexOf(rowData) + 1).toString() },
+					})
+				}
+				quoteSearch={quoteSearch}
+				onSearchChange={(updates) => {
+					navigate({
+						search: (prev: QuoteSearch) => ({ ...prev, ...updates }),
+						replace: true,
+					});
+				}}
+			/>
+		</div>
 	);
 }
 

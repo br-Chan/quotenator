@@ -16,7 +16,7 @@ import {
 	searchToFilters,
 	searchToPaginationState,
 } from "#/lib/search";
-import { categoryValues } from "#/types/quotes";
+import { categoryValues, type Quote } from "#/types/quotes";
 import type { QuoteSearch } from "#/types/search";
 import {
 	Table,
@@ -26,24 +26,26 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/table";
+import { CumulativeChart } from "../chart/cumulative-chart";
 import { type DataTableFeatures, features } from "./data-table-features";
 import { DataTablePagination } from "./data-table-pagination";
+import { OwnerChart } from "../chart/owner-chart";
 
-interface DataTableProps<TData extends RowData> {
-	columns: ColumnDef<DataTableFeatures, TData>[];
-	data: TData[];
-	onRowClick?: (rowData: TData) => void;
+interface DataTableProps {
+	columns: ColumnDef<DataTableFeatures, Quote>[];
+	data: Quote[];
+	onRowClick?: (rowData: Quote) => void;
 	quoteSearch: QuoteSearch;
 	onSearchChange: (updates: QuoteSearch) => void;
 }
 
-export function DataTable<TData extends RowData>({
+export function DataTable({
 	columns,
 	data,
 	onRowClick = () => {},
 	quoteSearch,
 	onSearchChange,
-}: DataTableProps<TData>) {
+}: DataTableProps) {
 	const columnFilters: ColumnFiltersState = useMemo(
 		() => searchToFilters(quoteSearch),
 		[quoteSearch],
@@ -101,6 +103,10 @@ export function DataTable<TData extends RowData>({
 		},
 		150,
 	);
+
+	const filteredData = table
+		.getFilteredRowModel()
+		.rows.map((row) => row.original);
 
 	return (
 		<div>
@@ -211,6 +217,12 @@ export function DataTable<TData extends RowData>({
 					</TableBody>
 				</Table>
 			</div>
+
+			<h2 className="text-3xl my-4 text-center">Top Quoters</h2>
+			<CumulativeChart quotes={filteredData} />
+
+			<h2 className="text-3xl my-4 text-center">Quotes Leaderboard</h2>
+			<OwnerChart quotes={filteredData} />
 		</div>
 	);
 }
