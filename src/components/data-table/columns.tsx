@@ -22,7 +22,11 @@ export const columns = columnHelper.columns([
 	}),
 	columnHelper.accessor("Context", {
 		header: "Context",
-		cell: (row) => <div className="whitespace-pre-wrap">{row.getValue()}</div>,
+		cell: (row) => (
+			<div className="whitespace-pre-wrap">
+				<Markdown remarkPlugins={[remarkGfm]}>{row.getValue()}</Markdown>
+			</div>
+		),
 	}),
 	columnHelper.accessor("Date", {
 		header: ({ column }) => {
