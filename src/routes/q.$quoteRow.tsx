@@ -58,9 +58,10 @@ function RouteComponent() {
 
 	const handleCopyQuoteText = async () => {
 		if (quoteRef.current) {
+			const quoteLines = quote.Quote.split("\n");
 			try {
 				await navigator.clipboard.writeText(
-					`> ${quote.Quote}\n~ ${quote.Owner}, ${quote.Date}`,
+					`> ${quoteLines.join("\n> ")}\n~ ${quote.Owner}\n   on ${quote.Date}`,
 				);
 				toast.success("Quote copied as text!");
 			} catch (error) {
