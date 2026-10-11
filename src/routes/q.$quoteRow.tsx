@@ -5,7 +5,7 @@ import {
 	useLoaderData,
 	useRouter,
 } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, Copy, Download } from "lucide-react";
+import { ArrowLeft, ArrowRight, Clipboard, Copy, Download } from "lucide-react";
 import { useRef } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -45,11 +45,24 @@ function RouteComponent() {
 		}
 	};
 
-	const handleCopyQuote = async () => {
+	const handleCopyQuoteImage = async () => {
 		if (quoteRef.current) {
 			try {
 				await copyDivAsImageToClipboard(quoteRef.current);
 				toast.success("Quote copied as image!");
+			} catch (error) {
+				toast.error("Failed to copy quote to clipboard.");
+			}
+		}
+	};
+
+	const handleCopyQuoteText = async () => {
+		if (quoteRef.current) {
+			try {
+				await navigator.clipboard.writeText(
+					`> ${quote.Quote}\n~ ${quote.Owner}, ${quote.Date}`,
+				);
+				toast.success("Quote copied as text!");
 			} catch (error) {
 				toast.error("Failed to copy quote to clipboard.");
 			}
@@ -95,13 +108,29 @@ function RouteComponent() {
 						</button>
 					</div>
 
-					<div className="tooltip tooltip-bottom" data-tip="Copy to clipboard">
+					<div
+						className="tooltip tooltip-bottom"
+						data-tip="Copy image to clipboard"
+					>
 						<button
 							type="button"
 							className="btn btn-outline btn-sm btn-square"
-							onClick={handleCopyQuote}
+							onClick={handleCopyQuoteImage}
 						>
 							<Copy />
+						</button>
+					</div>
+
+					<div
+						className="tooltip tooltip-bottom"
+						data-tip="Copy text to clipboard"
+					>
+						<button
+							type="button"
+							className="btn btn-outline btn-sm btn-square"
+							onClick={handleCopyQuoteText}
+						>
+							<Clipboard />
 						</button>
 					</div>
 				</div>
