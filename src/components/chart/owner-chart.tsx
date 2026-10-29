@@ -31,7 +31,7 @@ export function OwnerChart({ quotes }: ChartProps) {
 
 	return (
 		<ResponsiveContainer width="100%" height={600}>
-			<BarChart data={chartData}>
+			<BarChart className="py-1" data={chartData}>
 				<XAxis
 					dataKey="owner"
 					angle={-45}
