@@ -51,5 +51,6 @@ export const columns = columnHelper.columns([
 	// }),
 	columnHelper.accessor("Category", {
 		header: "Category",
+		filterFn: "equals",
 	}),
 ]);
